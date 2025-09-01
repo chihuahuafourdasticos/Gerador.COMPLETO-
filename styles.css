@@ -1,0 +1,1271 @@
+body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #e6f3ff;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+/* New Header Styles */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 20px;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.header-content-left {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Spacing between nav and backup buttons */
+}
+
+/* New History Controls styles */
+#history-controls {
+    display: flex;
+    gap: 10px;
+}
+
+#history-controls button {
+    background-color: #607D8B; /* Same as other controls */
+    font-size: 1.2em; /* Larger symbols */
+    font-weight: bold;
+    padding: 5px 15px;
+    transition: background-color 0.2s ease;
+    line-height: 1;
+}
+
+#history-controls button:disabled {
+    background-color: #B0BEC5;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#history-controls button:not(:disabled):hover {
+    background-color: #455A64;
+}
+
+/* New Theme Toggle Style */
+#theme-toggle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease-in-out;
+}
+
+#theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* IP Widget Styles */
+#ip-widget {
+  position: relative; /* Needed for ip-display positioning */
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+#help-button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #ff9800; /* Orange */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease-in-out;
+}
+#help-button:hover {
+    transform: scale(1.1);
+    background-color: #e68a00;
+}
+
+#ip-eye {
+  font-size: 28px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease-in-out;
+}
+
+#ip-eye:hover {
+    transform: scale(1.1);
+}
+
+#ip-display {
+  position: absolute; /* Position relative to #ip-widget */
+  top: 100%; /* Position below the eye icon */
+  right: 0;
+  margin-top: 5px; /* Small gap */
+  width: max-content; /* Adjust width to content */
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+/* Modal Styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 2000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px 30px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 800px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+  animation: fadeIn 0.3s;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+/* New Emoji Picker Modal Specific Styles */
+.emoji-modal-content {
+    padding: 20px;
+    width: auto; /* Let it size to the picker */
+    max-width: 400px;
+}
+
+.emoji-modal-content .modal-body {
+    padding: 0;
+    max-height: none;
+}
+
+emoji-picker {
+    width: 100%;
+    height: 450px;
+}
+
+/* Batch Generator Modal Specific Styles */
+#batch-generator-modal .modal-content {
+    max-width: 600px;
+}
+#batch-generator-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.batch-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.batch-control-group p {
+    margin: 0;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s;
+}
+#batch-quantity {
+    width: 100px;
+    padding: 8px;
+    font-size: 1em;
+}
+#batch-quick-select {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+#batch-quick-select button {
+    padding: 6px 12px;
+    font-size: 0.9em;
+    background-color: #607D8B;
+}
+#batch-quick-select button:hover {
+    background-color: #455A64;
+}
+#batch-ball-list-container {
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.batch-ball-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    font-size: 0.9em;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.batch-ball-item label {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+#batch-action-container {
+    text-align: center;
+}
+#batch-copy-btn {
+    width: 50%;
+    padding: 12px;
+    font-size: 1.1em;
+    background-color: #4CAF50;
+}
+#batch-copy-btn:hover {
+    background-color: #3e8e41;
+}
+.feedback-message {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #1976D2;
+    min-height: 1.2em;
+}
+
+.modal-body {
+    max-height: 75vh;
+    overflow-y: auto;
+    padding-right: 15px; /* space for scrollbar */
+}
+.modal-body h3 {
+    color: #1976D2;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin-top: 20px;
+    transition: color 0.3s, border-color 0.3s;
+}
+.modal-body ul {
+    list-style-position: inside;
+    padding-left: 10px;
+}
+.modal-body li {
+    margin-bottom: 8px;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.95);}
+  to {opacity: 1; transform: scale(1);}
+}
+
+
+.close-button {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+    nav {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    nav button {
+        background: #607D8B;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.2s;
+    }
+
+    nav button:hover {
+        background: #455A64;
+    }
+
+    nav button.active {
+        background: #2196F3;
+    }
+
+    nav button.locked {
+        background-color: #9E9E9E; /* Grey color for locked state */
+        cursor: pointer; /* Still clickable to show prompt */
+        opacity: 0.7;
+    }
+
+    nav button.locked:hover {
+        background-color: #757575;
+    }
+
+    #backup-controls {
+        margin-bottom: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+    #backup-controls button {
+        background-color: #78909C; /* Blue Grey */
+        font-size: 0.9em;
+        padding: 8px 15px;
+        transition: background-color 0.2s ease;
+    }
+
+    #kill-mode-btn {
+        background-color: #c0392b;
+        color: white;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px black;
+        position: relative;
+        overflow: hidden; /* Hide overflow from pseudo-element */
+    }
+
+    #kill-mode-btn::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        right: 5px;
+        width: 10px;
+        height: 20px;
+        background: #a01c0e;
+        border-radius: 50% 50% 30% 70% / 60% 40% 60% 40%;
+        box-shadow: 
+            -10px 5px 0 2px #a01c0e, /* drip 2 */
+            5px -2px 0 -1px #a01c0e, /* drip 3 */
+            -3px -12px 0 1px #a01c0e; /* splash */
+        transform: rotate(15deg);
+        transition: all 0.5s ease;
+    }
+    
+    #kill-mode-btn.active {
+        background-color: #e74c3c;
+        animation: pulse-red 1.5s infinite;
+    }
+
+    #kill-mode-btn.active::after {
+        bottom: -25px; /* Drips further when active */
+    }
+
+    @keyframes pulse-red {
+      0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+    }
+
+    #backup-controls button:hover {
+        background-color: #546E7A;
+    }
+
+
+    .tool-container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 20px; /* Add margin between tools */
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .input-section {
+      margin-bottom: 20px;
+    }
+
+    textarea, input[type="text"], input[type="number"] { /* Combine selectors */
+      width: 100%;
+      padding: 10px; /* Consistent padding */
+      margin: 8px 0;
+      border: 1px solid #a8d1ff;
+      border-radius: 4px;
+      box-sizing: border-box; /* Include padding and border in the element's total width and height */
+      font-size: 16px; /* Consistent font size */
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    button {
+      background: #2196F3;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px; /* Consistent font size */
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background: #1976D2;
+    }
+
+    /* Address Generator Specific Styles */
+    #address-generator .output {
+      margin-top: 20px;
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 4px;
+      border: 1px solid #a8d1ff;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    #address-generator .variation {
+      margin: 10px 0;
+      padding: 8px 5px;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95em;
+      transition: border-color 0.3s;
+    }
+
+    #address-generator .variation span {
+       word-break: break-all; /* Break long variations */
+       padding-right: 10px; /* Space before button */
+    }
+
+    #address-generator .variation button {
+      background: #4CAF50; /* Green */
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8em; /* Smaller font for copy button */
+    }
+
+    #address-generator .variation button:hover {
+      background: #367C39;
+    }
+
+    #address-generator .ball-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      margin-bottom: 20px;
+      gap: 5px; /* Add gap between the two containers */
+    }
+
+    .ball-group-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: 10px; /* Spacing between balls in a group */
+    }
+
+    .ball {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #2196F3;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0; /* Remove margin as gap is now on container */
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9em; /* Adjust ball font size */
+      user-select: none; /* Prevent text selection during drag */
+    }
+
+    .ball.reorder-active {
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 1;
+        box-shadow: none;
+      }
+      50% {
+        opacity: 0.7;
+        box-shadow: 0 0 8px 3px gold;
+      }
+      100% {
+        opacity: 1;
+        box-shadow: none;
+      }
+    }
+    
+    /* SortableJS helper classes */
+    .ball.sortable-ghost {
+      opacity: 0.4;
+      background-color: #2196F3;
+    }
+    .ball.sortable-drag {
+      cursor: grabbing;
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .ball:hover {
+      background-color: #1976D2;
+    }
+
+    /* Styles for the locked ball */
+    .ball.locked {
+        background-color: #A0A0A0; /* Grey background for locked state */
+        color: #505050; /* Darker text/icon color for contrast */
+        cursor: not-allowed; /* Indicate it's not clickable */
+        opacity: 0.7; /* Slightly faded */
+        font-size: 1.1em; /* Make lock icon a bit more prominent if needed */
+    }
+
+    .ball.locked:hover {
+        background-color: #A0A0A0; /* No change on hover for locked ball */
+        opacity: 0.7; /* Maintain opacity */
+    }
+
+    /* Styles for the new emoji balls */
+    .emoji-ball {
+        background-color: #000000; /* Black background */
+        color: white; /* Emoji color (may not affect all emojis) */
+        font-size: 1.2em; /* Slightly larger emoji */
+        line-height: 1; /* Ensure emoji centers vertically */
+    }
+
+    .emoji-ball:hover {
+       background-color: #333333; /* Darker grey on hover */
+       opacity: 0.9;
+    }
+
+    /* Styles for the new red clipboard balls */
+    .red-ball {
+        background-color: #F44336; /* Vibrant Red */
+        color: white;
+        /* Inherits font-size from .ball (0.9em) which should be fine for 'R1', 'R2' */
+    }
+
+    .red-ball:hover {
+        background-color: #D32F2F; /* Darker Red on hover */
+    }
+
+    /* New style for the green 'add' ball */
+    .add-ball {
+        background-color: #4CAF50; /* Green */
+        color: white;
+        font-size: 1.8em;
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .add-ball:hover {
+        background-color: #3e8e41;
+        transform: scale(1.1);
+    }
+
+    /* Styles for the custom context menu */
+    .context-menu {
+        position: absolute;
+        z-index: 1001;
+        background: #ffffff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        padding: 5px 0;
+        min-width: 150px;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .context-menu-item {
+        padding: 8px 15px;
+        cursor: pointer;
+        font-size: 0.9em;
+        user-select: none;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    .context-menu-item:hover {
+        background: #f0f0f0;
+    }
+
+    .context-menu-item.delete {
+        color: #D32F2F;
+    }
+
+    /* Robot & Wizard Sequencer Styles */
+    #robot-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px dashed #a8d1ff;
+        text-align: center;
+        transition: border-color 0.3s;
+    }
+    
+    #sequencer-toggles {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    #robot-toggle, #wizard-toggle {
+        font-size: 40px;
+        cursor: pointer;
+        display: inline-block;
+        transition: transform 0.2s;
+    }
+
+    #robot-toggle:hover, #wizard-toggle:hover {
+        transform: scale(1.1);
+    }
+
+    #robot-sequencer, #wizard-sequencer {
+        display: flex; /* Changed from inline style to class style */
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 15px;
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    }
+
+    #batch-generate-controls {
+        margin-top: 15px;
+    }
+
+    #batch-generate-btn {
+        font-size: 24px;
+        padding: 8px 12px;
+        background-color: #78909C;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+
+    #batch-generate-btn:hover {
+        background-color: #546E7A;
+        transform: scale(1.05);
+    }
+
+    /* New container to group filter and selector */
+    #robot-view-filter-container, #wizard-view-filter-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    #robot-view-filter, #wizard-view-filter {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 8px; /* Space between filters and balls */
+    }
+
+    .filter-ball {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid #ccc;
+        transition: all 0.2s ease;
+    }
+
+    .filter-ball:hover {
+        transform: scale(1.1);
+        border-color: #333;
+    }
+
+    .filter-ball.active {
+        border-color: #0d47a1;
+        transform: scale(1.2);
+        box-shadow: 0 0 5px rgba(13, 71, 161, 0.7);
+    }
+
+    #filter-blue {
+        background-color: #2196F3; /* Blue */
+    }
+
+    #filter-black {
+        background-color: #000000; /* Black */
+    }
+
+    #filter-blue-wizard {
+        background-color: #2196F3; /* Blue */
+    }
+    
+    #filter-black-wizard {
+        background-color: #000000; /* Black */
+    }
+
+    /* New styles for the ball selector panel */
+    #robot-ball-selector, #wizard-ball-selector {
+        background-color: #f0f8ff; /* Light blueish background ("mais claro") */
+        border: 1px solid #a8d1ff;
+        border-radius: 8px;
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 250px; /* Fixed width */
+        min-height: 50px; /* Ensure it has height even when empty */
+        justify-content: center;
+        align-content: flex-start; /* Align items to top */
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .no-balls-message {
+        color: #777;
+        font-style: italic;
+        font-size: 0.9em;
+        align-self: center; /* Center message vertically */
+        transition: color 0.3s;
+    }
+
+    .selector-ball {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background-color: #607D8B; /* Neutral color */
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.8em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px solid transparent;
+    }
+
+    .selector-ball:hover {
+        background-color: #455A64;
+    }
+
+    .selector-ball.selected {
+        background-color: #2196F3; /* Bright blue for selected */
+        border-color: #0d47a1;
+        transform: scale(1.15);
+    }
+    
+    /* Wrapper for the main robot display and button */
+    #robot-main-controls, #wizard-main-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    #robot-ball-display-container, #wizard-ball-display-container {
+        /* This container helps manage the ball's layout and potential animations */
+    }
+
+    #robot-ball-display {
+      width: 40px; /* Slightly larger */
+      height: 40px;
+      font-size: 1.1em;
+      background-color: #0d47a1; /* Darker blue */
+      /* Also make it an emoji ball */
+       color: white; /* Emoji color (may not affect all emojis) */
+       line-height: 1; /* Ensure emoji centers vertically */
+    }
+
+    #wizard-ball-display {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1em;
+        background-color: #6a0080; /* Wizard Purple */
+        color: white;
+        line-height: 1;
+    }
+    #wizard-ball-display:hover {
+        background-color: #9C27B0;
+    }
+
+
+    #robot-ball-display:hover {
+      background-color: #1565c0; /* Lighter on hover */
+    }
+
+    #robot-next-btn {
+        background-color: #ff9800; /* Orange */
+    }
+    #robot-next-btn:hover {
+        background-color: #e68a00;
+    }
+
+    #wizard-next-btn {
+        background-color: #00BCD4; /* Cyan */
+    }
+    #wizard-next-btn:hover {
+        background-color: #0097A7;
+    }
+
+    #robot-feedback {
+        margin-top: 10px;
+        padding: 8px;
+        border-radius: 4px;
+        color: #333;
+        font-size: 0.9em;
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Name Modifier Specific Styles */
+    #name-modifier {
+       display: flex;
+       flex-direction: column;
+       align-items: center; /* Center align content */
+    }
+
+     #name-modifier h2, #name-modifier h3, #name-modifier h4 {
+         text-align: center; /* Center title */
+         width: 100%;
+         margin-bottom: 15px;
+     }
+     #name-modifier h4 {
+         margin-top: 15px;
+         margin-bottom: 5px;
+         color: #555;
+     }
+
+
+    #name-modifier input[type="text"] {
+        width: 300px; /* Specific width for name input */
+        max-width: 100%; /* Ensure responsiveness */
+    }
+
+    #name-modifier .button-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px; /* Add space below buttons */
+      flex-wrap: wrap; /* Allow buttons to wrap */
+      justify-content: center;
+    }
+
+    #name-modifier .button-container button {
+      background-color: #4CAF50;
+    }
+    #name-modifier .button-container button:hover {
+       background-color: #3e8e41;
+    }
+    /* Style for DB Toggle Button */
+    #name-modifier .button-container #db-toggle-button {
+        background-color: #ff9800; /* Orange */
+    }
+    #name-modifier .button-container #db-toggle-button:hover {
+        background-color: #e68a00;
+    }
+    /* Style for Get New Name Button */
+    #name-modifier .button-container #get-new-name-button {
+        background-color: #00BCD4; /* Cyan */
+    }
+    #name-modifier .button-container #get-new-name-button:hover {
+        background-color: #0097A7;
+    }
+
+    .emoji-copy-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        font-size: 1.5em; /* Make the emoji bigger */
+        cursor: pointer;
+        line-height: 1;
+        transition: transform 0.2s;
+    }
+
+    .emoji-copy-btn:hover {
+        transform: scale(1.1);
+        background: none; /* Ensure no background on hover */
+    }
+
+    /* New style for Plano-B add button */
+    .plano-b-add-item-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    /* Styles for Plano-B buttons */
+    #plano-b-controls {
+        display: flex;
+        gap: 10px; /* Add space between buttons */
+        margin-bottom: 20px; /* Add space below the button container */
+        justify-content: center; /* Center the buttons */
+    }
+    #plano-b-controls button {
+        background-color: #9C27B0; /* Purple */
+        transition: background-color 0.2s;
+    }
+     #plano-b-controls button:hover {
+        background-color: #7B1FA2; /* Darker Purple */
+    }
+
+    #name-modifier #resultado {
+      font-size: 20px;
+      margin-top: 20px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap; /* Allow wrapping if name is long */
+      justify-content: center; /* Center result */
+      text-align: center; /* Center text */
+      min-height: 30px; /* Ensure space even when empty */
+      margin-bottom: 20px; /* Add space before next section */
+    }
+
+     #name-modifier #resultado button {
+       margin-left: 10px;
+       background-color: #008CBA;
+       font-size: 0.8em; /* Smaller copy button */
+       padding: 5px 10px;
+     }
+
+     #name-modifier #resultado button:hover {
+       background-color: #005f6b;
+     }
+
+    /* General Tool Section Styling */
+    .tool-section {
+       border-top: 2px dashed #a8d1ff;
+       margin-top: 30px;
+       padding-top: 20px;
+       width: 90%;
+       max-width: 600px; /* Limit width */
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+    }
+
+    .tool-section h3 {
+        text-align: center;
+        width: 100%;
+        margin-bottom: 15px;
+        color: #1976D2; /* Match button color */
+        transition: color 0.3s;
+    }
+
+    .tool-section textarea {
+       width: 100%;
+       margin-bottom: 10px;
+    }
+
+    .tool-section .output {
+      margin-top: 20px;
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 4px;
+      border: 1px solid #eee;
+      width: 100%;
+      max-height: 300px;
+      overflow-y: auto;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    /* Reusing variation style from address generator */
+    .tool-section .variation {
+      margin: 10px 0;
+      padding: 8px 5px;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95em;
+      transition: border-color 0.3s;
+    }
+
+    .tool-section .variation span {
+       word-break: break-all; /* Break long variations */
+       padding-right: 10px; /* Space before button */
+    }
+
+    .tool-section .variation button {
+      background: #4CAF50; /* Green */
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8em; /* Smaller font for copy button */
+      flex-shrink: 0; /* Prevent button from shrinking */
+    }
+
+    .tool-section .variation button:hover {
+      background: #367C39;
+    }
+
+    /* Database Section Styles */
+    #database-section {
+        text-align: center; /* Keep text centered inside */
+    }
+
+    #database-section textarea {
+        width: 100%; /* Full width within its container */
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+
+     #database-section .db-button-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+     #database-section #db-save-button {
+         background-color: #4CAF50; /* Green */
+     }
+     #database-section #db-save-button:hover {
+         background-color: #3e8e41;
+     }
+     #database-section #db-clear-button {
+         background-color: #f44336; /* Red */
+     }
+     #database-section #db-clear-button:hover {
+         background-color: #d32f2f;
+     }
+
+     #stored-data-display {
+        margin-top: 10px;
+        text-align: left;
+        background: #f9f9f9;
+        padding: 10px;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        max-height: 250px; /* Limit height and add scroll */
+        overflow-y: auto;
+        font-size: 0.9em;
+        color: #333;
+        transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+     }
+
+    .db-record-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 8px 5px;
+        border-bottom: 1px dashed #ddd;
+        transition: background-color 0.2s, border-color 0.3s;
+    }
+
+    .db-record-item:last-child {
+        border-bottom: none;
+    }
+
+    .db-record-item:hover {
+        background-color: #f0f8ff;
+    }
+
+    .db-record-text {
+        flex-grow: 1;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        margin: 0;
+        padding-right: 10px;
+        font-family: inherit; /* Inherit font from parent */
+    }
+
+    .db-record-delete-btn {
+        flex-shrink: 0;
+        background-color: #f44336; /* Red */
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        padding: 0;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.2s, transform 0.2s;
+    }
+
+    .db-record-delete-btn:hover {
+        background-color: #d32f2f; /* Darker red */
+        transform: scale(1.1);
+    }
+
+    #db-stats-panel {
+        background-color: #e3f2fd;
+        border: 1px solid #90caf9;
+        border-radius: 4px;
+        padding: 8px 12px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-around;
+        gap: 15px;
+        font-size: 0.9em;
+        text-align: center;
+        width: 100%;
+        max-width: 400px;
+        box-sizing: border-box;
+        color: #1e3a5f;
+        transition: all 0.3s;
+     }
+
+     #db-stats-panel span strong {
+        font-size: 1.1em;
+     }
+
+    /* New Reorder Controls */
+    #reorder-controls {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    #finish-reorder-btn {
+        background-color: #4CAF50;
+        padding: 10px 25px;
+        font-size: 1.1em;
+    }
+     #finish-reorder-btn:hover {
+        background-color: #3e8e41;
+    }
+
+
+/* --- DARK THEME --- */
+body.dark-theme {
+    background: #121212;
+    color: #e0e0e0;
+}
+
+.dark-theme #theme-toggle {
+    color: #e0e0e0;
+}
+
+.dark-theme .tool-container {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+.dark-theme nav button {
+    background: #333;
+}
+.dark-theme nav button:hover {
+    background: #444;
+}
+.dark-theme nav button.active {
+    background: #0d47a1;
+}
+
+.dark-theme #backup-controls button {
+    background-color: #4f4f4f;
+}
+.dark-theme #backup-controls button:hover {
+    background-color: #5a5a5a;
+}
+
+.dark-theme textarea, .dark-theme input[type="text"], .dark-theme input[type="number"] {
+    background: #2b2b2b;
+    border-color: #555;
+    color: #f0f0f0;
+}
+
+.dark-theme .output {
+    background: #252525;
+    border-color: #444;
+}
+
+/* Specific rule for address generator output in dark theme */
+.dark-theme #address-generator .output {
+    background: #2b2b2b; /* Match textarea background */
+    border-color: #444;
+}
+
+.dark-theme .variation {
+    border-bottom-color: #333;
+    /* background-color: #2b2b2b; */ /* Removed to inherit from parent */
+}
+
+/* New rule to make text white inside variation span for dark theme */
+.dark-theme .variation span {
+    color: #f0f0f0;
+}
+
+.dark-theme .context-menu {
+    background: #2b2b2b;
+    border-color: #555;
+}
+.dark-theme .context-menu-item {
+    color: #e0e0e0;
+}
+.dark-theme .context-menu-item:hover {
+    background: #3a3a3a;
+}
+.dark-theme .context-menu-item.delete:hover {
+    background: #7f1d1d;
+    color: #fff;
+}
+
+.dark-theme #robot-section, .dark-theme .tool-section {
+    border-top-color: #444;
+}
+
+.dark-theme #ip-display {
+    background: rgba(43, 43, 43, 0.9);
+    border: 1px solid #555;
+    color: #e0e0e0;
+}
+
+.dark-theme .modal-content {
+    background-color: #252525;
+    color: #e0e0e0;
+    border: 1px solid #444;
+}
+
+.dark-theme .emoji-modal-content {
+    background-color: #1e1e1e; /* Match tool container background */
+}
+
+.dark-theme .close-button {
+    color: #aaa;
+}
+.dark-theme .close-button:hover {
+    color: #fff;
+}
+
+.dark-theme #robot-ball-selector, .dark-theme #wizard-ball-selector {
+    background-color: #2b2b2b;
+    border-color: #444;
+}
+
+.dark-theme .no-balls-message {
+    color: #b0b0b0;
+}
+
+.dark-theme #stored-data-display {
+    background: #2b2b2b;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.dark-theme .db-record-item:hover {
+    background-color: #3a3a3a;
+}
