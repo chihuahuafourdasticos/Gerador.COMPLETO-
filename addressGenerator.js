@@ -25,6 +25,83 @@ const defaultAddresses = {
     'e4': `Seropedica - Escola\n Endereço 4\n Cep: 23895075\n Cidade: Seropedica\n Estado: rj\n Bairro: Fazenda Caxias\n Endereço: Rua Josino Fernades Nunes\n Numero: 447\n Complemento: Creche Escola Aquarela`
 };
 
+const prefixCategories = {
+    default: {
+        title: "Padrão",
+        emoji: "⚪",
+        phrases: {
+            pt: [
+                "enviar para", "destinado a", "encomenda pra", "mercadoria para",
+                "objeto destinado", "a morador de", "localizado em", "deixar em",
+                "Remeter a", "Dirigido a", "Pedido para", "Produto para",
+                "Item destinado a", "Para residente de", "Situado em", "Depositar em"
+            ],
+            en: [
+                "send to", "intended for", "order for", "goods for",
+                "object destined for", "to a resident of", "located at", "leave at",
+                "Forward to", "Addressed to", "Request for", "Product for",
+                "Item intended for", "For resident of", "Situated at", "Deposit at"
+            ]
+        }
+    },
+    para: {
+        title: "Frases com “para” (destinação, finalidade)",
+        emoji: "🟢",
+        phrases: {
+            pt: ["Produto voltado para", "Material preparado para", "Envio reservado para", "Destinado para uso de", "Exclusivo para", "Embalado para", "Conteúdo preparado para", "Kit elaborado para", "Solução ideal para", "Desenvolvido para"],
+            en: ["Product aimed at", "Material prepared for", "Shipment reserved for", "Intended for use by", "Exclusive for", "Packaged for", "Content prepared for", "Kit designed for", "Ideal solution for", "Developed for"]
+        }
+    },
+    localizacaoDestinatario: {
+        title: "Frases com “localização/destinatário”",
+        emoji: "🟢",
+        phrases: {
+            pt: ["Enviado a pedido de", "Localizado no endereço de", "Endereçado a", "Encomenda enviada para", "Correspondência dirigida a", "Item localizado em", "Pacote remetido a", "Encaminhado a", "Para entrega em", "Carga destinada a"],
+            en: ["Sent at the request of", "Located at the address of", "Addressed to", "Order sent to", "Correspondence addressed to", "Item located at", "Package forwarded to", "Forwarded to", "For delivery to", "Cargo destined for"]
+        }
+    },
+    formais: {
+        title: "Frases formais/administrativas",
+        emoji: "🟢",
+        phrases: {
+            pt: ["Objeto encaminhado a", "Documento pertencente a", "Arquivo relativo a", "Solicitação vinda de", "Comunicação dirigida a", "Registro feito para", "Documento expedido em nome de", "Notificação destinada a", "Ordem emitida para", "Referente ao destinatário"],
+            en: ["Object forwarded to", "Document belonging to", "File relating to", "Request from", "Communication addressed to", "Record made for", "Document issued in the name of", "Notification intended for", "Order issued for", "Regarding the recipient"]
+        }
+    },
+    destinadoAlguem: {
+        title: "Frases com sentido de \"destinado a alguém\"",
+        emoji: "🟠",
+        phrases: {
+            pt: ["Item a ser entregue a", "Carta dirigida ao cuidado de", "Documento a encaminhar para", "Correspondência reservada a", "Mensagem endereçada a", "Conteúdo voltado ao destinatário", "Produto remetido em nome de", "Pacote identificado para", "Comunicação endereçada ao responsável", "Informações destinadas ao solicitante"],
+            en: ["Item to be delivered to", "Letter addressed to the care of", "Document to be forwarded to", "Correspondence reserved for", "Message addressed to", "Content aimed at the recipient", "Product sent in the name of", "Package identified for", "Communication addressed to the person in charge", "Information intended for the requester"]
+        }
+    },
+    usoFinalidade: {
+        title: "Frases com sentido de “uso ou finalidade de algo”",
+        emoji: "🟢",
+        phrases: {
+            pt: ["Material de uso exclusivo para", "Solução indicada para", "Produto criado especialmente para", "Artigo apropriado para", "Serviço voltado à necessidade de", "Ferramenta ideal para", "Aplicação recomendada para", "Equipamento projetado para", "Componente desenvolvido com foco em", "Kit montado para atender a"],
+            en: ["Material for exclusive use by", "Solution indicated for", "Product created especially for", "Appropriate article for", "Service focused on the needs of", "Ideal tool for", "Recommended application for", "Equipment designed for", "Component developed with a focus on", "Kit assembled to meet"]
+        }
+    },
+    localizacaoVinculo: {
+        title: "Frases com localização e vínculo",
+        emoji: "🔵",
+        phrases: {
+            pt: ["Pertencente ao endereço de", "Associado ao residente em", "Registrado sob o nome de", "Domiciliado em", "Vinculado ao CPF de", "Inscrito no endereço de", "Constando como morador de", "Localizado junto ao endereço de", "Sob responsabilidade de", "Relativo ao endereço cadastrado"],
+            en: ["Belonging to the address of", "Associated with the resident at", "Registered under the name of", "Domiciled at", "Linked to the CPF of", "Registered at the address of", "Listed as a resident of", "Located at the address of", "Under the responsibility of", "Relating to the registered address"]
+        }
+    },
+    juridicas: {
+        title: "Frases mais formais ou jurídicas",
+        emoji: "🟣",
+        phrases: {
+            pt: ["Objeto sob posse de", "Expediente remetido a", "Documento lavrado em favor de", "Pedido registrado para atendimento de", "Protocolo vinculado ao requerente", "Declaração assinada por", "Requisição encaminhada ao setor responsável", "Solicitação formalizada em nome de", "Processo em trâmite para", "Arquivo pertencente ao dossiê de"],
+            en: ["Object in the possession of", "File sent to", "Document drawn up in favor of", "Request registered for fulfillment of", "Protocol linked to the applicant", "Declaration signed by", "Requisition forwarded to the responsible department", "Request formalized in the name of", "Process underway for", "File belonging to the dossier of"]
+        }
+    }
+};
+
 const defaultLockedBalls = ['4', '18'];
 const defaultBallMeta = {
     'e1': { display: '🏠', title: 'Endereço Casa' },
@@ -33,13 +110,6 @@ const defaultBallMeta = {
     'e4': { display: '🏫', title: 'Endereço Escola' }
 };
 
-const prefixes = [
-  "enviar para", "destinado a", "encomenda pra", "mercadoria para",
-  "objeto destinado", "a morador de", "localizado em", "deixar em",
-  "Remeter a", "Dirigido a", "Pedido para", "Produto para",
-  "Item destinado a", "Para residente de", "Situado em", "Depositar em"
-];
-
 // --- Persistent State ---
 let addresses = {};
 let lockedBalls = [];
@@ -47,6 +117,11 @@ let ballMeta = {};
 let addressGeneratorTitle = 'Gerador_CH_3.0'; // Default title
 let addressOrder = []; // New: To store custom sort order
 let killModeActive = false; // For the new KILL variations
+let chihuahuaRobotModeActive = false; // For the new copy mode
+let usePrefixes = true;
+let useCleanStreet = false;
+let useEnglishPrefixes = false;
+let selectedPrefixCategories = ['default'];
 
 // Load state from localStorage or use defaults
 function loadState() {
@@ -57,6 +132,12 @@ function loadState() {
         const storedTitle = localStorage.getItem('addressGenerator_title');
         const storedOrder = localStorage.getItem('addressGenerator_order');
         const killMode = localStorage.getItem('addressGenerator_killMode');
+        const chihuahuaRobotMode = localStorage.getItem('addressGenerator_chihuahuaRobotMode');
+
+        const storedUsePrefix = localStorage.getItem('addressGenerator_usePrefix');
+        const storedCleanStreet = localStorage.getItem('addressGenerator_cleanStreet');
+        const storedUseEnglish = localStorage.getItem('addressGenerator_useEnglish');
+        const storedSelectedCategories = localStorage.getItem('addressGenerator_selectedCategories');
 
         addresses = storedAddresses ? JSON.parse(storedAddresses) : { ...defaultAddresses };
         lockedBalls = storedLocked ? JSON.parse(storedLocked) : [...defaultLockedBalls];
@@ -64,6 +145,12 @@ function loadState() {
         addressGeneratorTitle = storedTitle || 'Gerador_CH_3.0';
         addressOrder = storedOrder ? JSON.parse(storedOrder) : [];
         killModeActive = killMode === 'true';
+        chihuahuaRobotModeActive = chihuahuaRobotMode === 'true';
+
+        usePrefixes = storedUsePrefix !== null ? storedUsePrefix === 'true' : true;
+        useCleanStreet = storedCleanStreet === 'true';
+        useEnglishPrefixes = storedUseEnglish === 'true';
+        selectedPrefixCategories = storedSelectedCategories ? JSON.parse(storedSelectedCategories) : ['default'];
 
         // Update title element on load
         const titleEl = document.getElementById('address-generator-title');
@@ -88,6 +175,11 @@ function saveState() {
         localStorage.setItem('addressGenerator_title', addressGeneratorTitle);
         localStorage.setItem('addressGenerator_order', JSON.stringify(addressOrder));
         localStorage.setItem('addressGenerator_killMode', killModeActive);
+        localStorage.setItem('addressGenerator_chihuahuaRobotMode', chihuahuaRobotModeActive);
+        localStorage.setItem('addressGenerator_usePrefix', usePrefixes);
+        localStorage.setItem('addressGenerator_cleanStreet', useCleanStreet);
+        localStorage.setItem('addressGenerator_useEnglish', useEnglishPrefixes);
+        localStorage.setItem('addressGenerator_selectedCategories', JSON.stringify(selectedPrefixCategories));
     } catch (e) {
         console.error("Failed to save state to localStorage.", e);
         alert("Erro ao salvar as alterações. O armazenamento pode estar cheio.");
@@ -96,14 +188,6 @@ function saveState() {
 
 // Make addresses available for other modules
 export { addresses };
-
-// Mapping for emoji balls - DEPRECATED in favor of ballMeta
-const emojiMap = {
-    'e1': '🏠', // casa
-    'e2': '🌻', // girassol
-    'e3': '👵', // vó
-    'e4': '🏫'  // escola
-};
 
 // --- Robot Sequencer State ---
 let robotSequence = [];
@@ -205,6 +289,10 @@ function generateVariation(address) {
   const match = address.match(addressRegex);
   const coreAddress = match ? match[1].trim() : address.trim(); // Use full input if no "Endereço:"
   
+  if (useCleanStreet) {
+      return coreAddress;
+  }
+  
   if (killModeActive) {
       // Try to separate address from number for KILL mode
       const numMatch = coreAddress.match(/^(.*?)\s*(\d+)$/);
@@ -219,10 +307,30 @@ function generateVariation(address) {
 }
 
 export function getRandomPrefix() {
-  return prefixes[Math.floor(Math.random() * prefixes.length)];
+    if (!usePrefixes) {
+        return '';
+    }
+
+    const availablePrefixes = [];
+    selectedPrefixCategories.forEach(catKey => {
+        if (prefixCategories[catKey]) {
+            availablePrefixes.push(...prefixCategories[catKey].phrases.pt);
+            if (useEnglishPrefixes) {
+                availablePrefixes.push(...prefixCategories[catKey].phrases.en);
+            }
+        }
+    });
+
+    if (availablePrefixes.length === 0) {
+        // Fallback to default if no categories are selected for some reason
+        const defaultPhrases = prefixCategories.default.phrases.pt;
+        return defaultPhrases[Math.floor(Math.random() * defaultPhrases.length)];
+    }
+
+    return availablePrefixes[Math.floor(Math.random() * availablePrefixes.length)];
 }
 
-export function generateVariations() {
+export async function generateVariations() {
   const originalText = document.getElementById('originalText').value;
   const count = parseInt(document.getElementById('count').value);
   const output = document.getElementById('output');
@@ -280,38 +388,88 @@ export function generateVariations() {
   output.innerHTML = variationsHtml;
 }
 
-export function copyVariation(buttonElement, prefix, variation) {
-  const originalText = document.getElementById('originalText').value;
-  const lines = originalText.split('\n');
-  let addressLineIndex = -1;
+export async function copyVariation(buttonElement, prefix, variation) {
+    if (chihuahuaRobotModeActive) {
+        // --- NEW CHIHUAHUA ROBOT LOGIC ---
+        const nameDataModule = await import('./nameModifier.js');
+        const nameData = await nameDataModule.getNewName(true); // true = is robot call
 
-  // Find the original "Endereço:" line again
-  for(let i=0; i< lines.length; i++) {
-      if (lines[i].trim().match(/^Endereço:/i)) {
-          addressLineIndex = i;
-          break;
-      }
-  }
+        if (!nameData) {
+            alert('Falha ao obter dados de nome/CPF. Verifique o banco de dados do Modificador de Nomes.');
+            return;
+        }
 
-  if (addressLineIndex !== -1) {
-    // Keep the original "Endereço: " part and append the generated prefix + variation
-    const newAddressLine = `Endereço: ${prefix} ${variation}`;
-    lines[addressLineIndex] = newAddressLine; // Replace the original address line
-    const newText = lines.join('\n'); // Join the lines back
+        const phoneNumber = generateRandomPhoneNumber();
+        const originalText = document.getElementById('originalText').value;
+        const lines = originalText.split('\n');
+        let addressLineIndex = -1;
+        let complementoLineIndex = -1;
 
-    navigator.clipboard.writeText(newText).then(() => {
-        const originalButtonText = buttonElement.textContent;
-        buttonElement.textContent = 'Copiado!';
-        setTimeout(() => {
-            buttonElement.textContent = originalButtonText;
-        }, 1500);
-    }).catch(err => {
-      console.error('Falha ao copiar texto: ', err);
-       alert('Falha ao copiar texto.');
-    });
-  } else {
-    alert('Linha "Endereço:" não encontrada no texto original para copiar.');
-  }
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].trim().match(/^Endereço:/i)) addressLineIndex = i;
+            if (lines[i].trim().match(/^Complemento:/i)) complementoLineIndex = i;
+        }
+
+        if (addressLineIndex !== -1) {
+            lines[addressLineIndex] = `Endereço: ${prefix} ${variation}`;
+        }
+
+        if (complementoLineIndex !== -1) {
+            const complementoRegex = /Complemento:\s*(.*)/i;
+            const match = lines[complementoLineIndex].match(complementoRegex);
+            if (match && match[1]) {
+                const originalComplemento = match[1];
+                const modifiedComplemento = nameDataModule.createSingleComplementVariation(originalComplemento);
+                lines[complementoLineIndex] = `Complemento: ${modifiedComplemento}`;
+            }
+        }
+
+        const modifiedAddressBlock = lines.join('\n');
+        const finalText = `${nameData}\ntelefone: ${phoneNumber}\n${modifiedAddressBlock}`;
+
+        navigator.clipboard.writeText(finalText).then(() => {
+            const originalButtonText = buttonElement.textContent;
+            buttonElement.textContent = 'Copiado!';
+            setTimeout(() => {
+                buttonElement.textContent = originalButtonText;
+            }, 1500);
+        }).catch(err => {
+            console.error('Falha ao copiar texto (modo Chihuahua): ', err);
+            alert('Falha ao copiar texto.');
+        });
+
+    } else {
+        // --- ORIGINAL LOGIC ---
+        const originalText = document.getElementById('originalText').value;
+        const lines = originalText.split('\n');
+        let addressLineIndex = -1;
+
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].trim().match(/^Endereço:/i)) {
+                addressLineIndex = i;
+                break;
+            }
+        }
+
+        if (addressLineIndex !== -1) {
+            const newAddressLine = `Endereço: ${prefix} ${variation}`;
+            lines[addressLineIndex] = newAddressLine;
+            const newText = lines.join('\n');
+
+            navigator.clipboard.writeText(newText).then(() => {
+                const originalButtonText = buttonElement.textContent;
+                buttonElement.textContent = 'Copiado!';
+                setTimeout(() => {
+                    buttonElement.textContent = originalButtonText;
+                }, 1500);
+            }).catch(err => {
+                console.error('Falha ao copiar texto: ', err);
+                alert('Falha ao copiar texto.');
+            });
+        } else {
+            alert('Linha "Endereço:" não encontrada no texto original para copiar.');
+        }
+    }
 }
 
 // --- Reorder State ---
@@ -1069,6 +1227,7 @@ async function handleWizardBallClick() {
 export function initAddressGenerator() {
     loadState(); // Load addresses and states from localStorage
     createBalls(); 
+    initPrefixControls(); // New function call
 
     const killBtn = document.getElementById('kill-mode-btn');
     if (killBtn) {
@@ -1086,6 +1245,24 @@ export function initAddressGenerator() {
                     killBtn.classList.remove('active');
                 }
                 saveState();
+            }
+        });
+    }
+
+    // New Chihuahua Robot Toggle Logic
+    const chihuahuaBtn = document.getElementById('chihuahua-robot-toggle');
+    if (chihuahuaBtn) {
+        if (chihuahuaRobotModeActive) {
+            chihuahuaBtn.classList.add('active');
+        }
+        chihuahuaBtn.addEventListener('click', () => {
+            chihuahuaRobotModeActive = !chihuahuaRobotModeActive;
+            chihuahuaBtn.classList.toggle('active', chihuahuaRobotModeActive);
+            saveState();
+             if(chihuahuaRobotModeActive) {
+                alert('Modo Robô Chihuahua ATIVADO. Copiar uma variação agora irá gerar um pacote de dados completo.');
+            } else {
+                alert('Modo Robô Chihuahua DESATIVADO. Copiar irá funcionar normalmente.');
             }
         });
     }
@@ -1267,6 +1444,114 @@ export function initAddressGenerator() {
         batchCopyBtn.addEventListener('click', handleBatchCopy);
     }
     setupBatchQuickSelect();
+}
+
+function initPrefixControls() {
+    const prefixToggle = document.getElementById('prefix-toggle-checkbox');
+    const cleanStreetToggle = document.getElementById('clean-street-toggle-checkbox');
+    const prefixMenuBtn = document.getElementById('prefix-menu-btn');
+    const prefixModal = document.getElementById('prefix-menu-modal');
+    const prefixModalClose = document.querySelector('.prefix-menu-close');
+    const englishToggle = document.getElementById('prefix-english-checkbox');
+
+    // 1. Set initial state for toggles
+    if (prefixToggle) prefixToggle.checked = usePrefixes;
+    if (cleanStreetToggle) cleanStreetToggle.checked = useCleanStreet;
+    if (englishToggle) englishToggle.checked = useEnglishPrefixes;
+
+    // 2. Populate Modal
+    populatePrefixModal();
+
+    // 3. Add Event Listeners
+    if (prefixToggle) {
+        prefixToggle.addEventListener('change', () => {
+            usePrefixes = prefixToggle.checked;
+            saveState();
+        });
+    }
+
+    if (cleanStreetToggle) {
+        cleanStreetToggle.addEventListener('change', () => {
+            useCleanStreet = cleanStreetToggle.checked;
+            saveState();
+        });
+    }
+
+    if (prefixMenuBtn) {
+        prefixMenuBtn.addEventListener('click', () => {
+            if (prefixModal) prefixModal.style.display = 'flex';
+        });
+    }
+
+    const closeModal = () => {
+        if (prefixModal) prefixModal.style.display = 'none';
+    };
+
+    if (prefixModalClose) {
+        prefixModalClose.addEventListener('click', closeModal);
+    }
+    window.addEventListener('click', (event) => {
+        if (event.target === prefixModal) {
+            closeModal();
+        }
+    });
+
+    if (englishToggle) {
+        englishToggle.addEventListener('change', () => {
+            useEnglishPrefixes = englishToggle.checked;
+            saveState();
+        });
+    }
+}
+
+function populatePrefixModal() {
+    const modalBody = document.getElementById('prefix-modal-body');
+    if (!modalBody) return;
+
+    // Create a document fragment to build the list before appending to the DOM
+    const fragment = document.createDocumentFragment();
+
+    Object.keys(prefixCategories).forEach(key => {
+        const category = prefixCategories[key];
+        const isChecked = selectedPrefixCategories.includes(key);
+
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'prefix-option';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = `prefix-cat-${key}`;
+        checkbox.dataset.categoryKey = key;
+        checkbox.checked = isChecked;
+
+        const label = document.createElement('label');
+        label.htmlFor = `prefix-cat-${key}`;
+        label.innerHTML = `<span>${category.emoji}</span> ${category.title}`;
+
+        categoryDiv.appendChild(checkbox);
+        categoryDiv.appendChild(label);
+        fragment.appendChild(categoryDiv);
+
+        // Add listener
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                if (!selectedPrefixCategories.includes(key)) {
+                    selectedPrefixCategories.push(key);
+                }
+            } else {
+                selectedPrefixCategories = selectedPrefixCategories.filter(cat => cat !== key);
+            }
+            saveState();
+        });
+    });
+
+    // Prepend the categories before the HR element
+    const hrElement = modalBody.querySelector('hr');
+    if (hrElement) {
+        modalBody.insertBefore(fragment, hrElement);
+    } else {
+        modalBody.appendChild(fragment);
+    }
 }
 
 function openBatchGenerator() {

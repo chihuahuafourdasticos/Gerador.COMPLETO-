@@ -31,10 +31,23 @@
             <button id="kill-mode-btn">KILL</button>
             <input type="file" id="backup-file-input" style="display: none;" accept=".json,application/json">
         </div>
+        <!-- New Prefix Controls -->
+        <div id="prefix-controls">
+          <div class="checkbox-wrapper">
+            <input type="checkbox" id="prefix-toggle-checkbox" checked>
+            <label for="prefix-toggle-checkbox" title="Ativar/Desativar prefixos automáticos (ex: 'enviado para')">Usar Prefixo</label>
+          </div>
+          <div class="checkbox-wrapper">
+            <input type="checkbox" id="clean-street-toggle-checkbox">
+            <label for="clean-street-toggle-checkbox" title="Se selecionado, a variação da rua não será modificada.">Rua Limpa</label>
+          </div>
+          <button id="prefix-menu-btn" title="Configurar Frases de Prefixo">👩‍🏫</button>
+        </div>
         <!-- New History Controls -->
         <div id="history-controls">
             <button id="undo-btn" title="Desfazer (Voltar)">↶</button>
             <button id="redo-btn" title="Refazer (Avançar)">↷</button>
+            <button id="chihuahua-robot-toggle" title="Ativar/Desativar modo Robô Chihuahua">🐶🤖</button>
         </div>
     </div>
     <div id="ip-widget">
@@ -178,6 +191,25 @@
     </div>
   </div>
 
+  <!-- New Prefix Menu Modal -->
+  <div id="prefix-menu-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+          <span class="close-button prefix-menu-close">&times;</span>
+          <h2>Gerenciador de Frases de Prefixo</h2>
+          <div class="modal-body" id="prefix-modal-body">
+              <p>Selecione as categorias de frases que deseja incluir nas gerações de endereço. As alterações são salvas automaticamente.</p>
+              
+              <!-- Categories will be populated by JS -->
+
+              <hr>
+              <div class="prefix-option english-option">
+                  <input type="checkbox" id="prefix-english-checkbox">
+                  <label for="prefix-english-checkbox"><span>🟦</span> Incluir traduções em Inglês (English)</label>
+              </div>
+          </div>
+      </div>
+  </div>
+
   <!-- New Emoji Picker Modal -->
   <div id="emoji-picker-modal" class="modal" style="display: none;">
     <div class="modal-content emoji-modal-content">
@@ -229,67 +261,79 @@
       <div class="modal-body">
           <p>Bem-vindo ao Ferramentas de Texto! Aqui está um guia detalhado sobre como usar cada função.</p>
 
-          <h3>Navegação Principal</h3>
-          <p>Use os botões <strong>"Gerador de Endereços"</strong> e <strong>"Modificador de Nomes"</strong> no topo da página para alternar entre as duas ferramentas principais.</p>
-
-          <h3>Widget de IP e Ajuda (Canto Superior Direito)</h3>
+          <h3>Navegação e Controles Gerais</h3>
           <ul>
-              <li><strong>Botão de Ajuda (?)</strong>: Você está lendo! Clique neste botão laranja a qualquer momento para ver este guia.</li>
-              <li><strong>Widget de IP (👁️)</strong>: Clique no olho para revelar seu endereço de IP público. Clique novamente (🙈) para ocultá-lo.</li>
+              <li><strong>Navegação Principal</strong>: Use os botões <strong>"Gerador de Endereços"</strong>, <strong>"Modificador de Nomes"</strong> e <strong>"Plano-B"</strong> no topo da página para alternar entre as ferramentas. O "Plano-B" requer uma senha na primeira vez que for acessado.</li>
+              <li><strong>Alterar Tema (☯)</strong>: Clique no ícone Yin-Yang para alternar entre os temas claro e escuro.</li>
+              <li><strong>Backup e Restauração</strong>:
+                  <ul>
+                      <li><strong>Criar Backup</strong>: Salva todos os seus dados (endereços, banco de nomes, configurações) em um arquivo <code>.json</code>.</li>
+                      <li><strong>Importar Backup</strong>: Carrega um arquivo de backup, substituindo os dados atuais. A página será recarregada.</li>
+                  </ul>
+              </li>
+              <li><strong>Desfazer (↶) / Refazer (↷)</strong>: Permite voltar ou avançar entre estados salvos da aplicação. Exige senha para confirmar a ação.</li>
+              <li><strong>Widget de IP (👁️)</strong>: Clique no olho no canto superior direito para revelar seu endereço de IP público. Clique novamente para ocultá-lo.</li>
+              <li><strong>Ajuda (?)</strong>: Você está lendo! Clique neste botão a qualquer momento para ver este guia.</li>
           </ul>
 
           <hr>
 
-          <h3>Gerador de Endereços</h3>
+          <h3>Gerador de Endereços (<code>Gerador_CH_3.0</code>)</h3>
           <p>Esta ferramenta permite carregar modelos de endereço e gerar variações aleatórias da linha de endereço para testes.</p>
           <ul>
-              <li><strong>Bolinhas de Endereço</strong>: Clique em uma bolinha (azul ou preta) para carregar seu respectivo modelo de endereço no campo "Texto Original".</li>
-              <li><strong>Gerar Variações</strong>: Após carregar um endereço, ajuste a "Quantidade de variações" e clique em "Gerar Variações" para ver os resultados.</li>
-              <li><strong>Adicionar Nova Bolinha (+)</strong>: Clique na bolinha verde para adicionar um novo endereço. Você será solicitado a escolher uma cor (azul para números, preta para ícones) e inserir os dados do endereço.</li>
+              <li><strong>Bolinhas de Endereço</strong>: Clique em uma bolinha (azul para numéricas, preta para ícones) para carregar seu respectivo modelo de endereço no campo "Texto Original". Clique com o botão direito em uma bolinha para ver opções como editar, bloquear ou excluir.</li>
+              <li><strong>Adicionar Nova Bolinha (+)</strong>: Clique na bolinha verde para adicionar um novo endereço.</li>
+              <li><strong>Gerar Variações</strong>: Após carregar um endereço, ajuste a "Quantidade de variações" e clique em "Gerar Variações". O sistema encontrará a linha "Endereço:" no texto e criará versões modificadas.</li>
+              <li><strong>KILL (Botão de Sangue)</strong>: Ativa um modo de geração "criativo" que usa caracteres especiais, Leetspeak (ex: 4 para A) e formatação incomum. Requer senha para ativar/desativar.</li>
+              <li><strong>Usar Prefixo (Checkbox)</strong>: Quando marcado, adiciona frases como "enviar para", "destinado a", etc., antes da variação do endereço.</li>
+              <li><strong>Rua Limpa (Checkbox)</strong>: Quando marcado, a parte do endereço da rua não é modificada, resultando em uma "rua limpa". O prefixo (se ativo) ainda será adicionado.</li>
+              <li><strong>Configurar Frases (👩‍🏫)</strong>: Abre um menu para selecionar categorias de frases de prefixo e ativar traduções em inglês.</li>
           </ul>
-          <h4>Robô Sequenciador (🤖)</h4>
-          <p>Esta é uma função avançada que combina dados de várias fontes para criar um pacote de informações completo e o copia para a área de transferência.</p>
+          <h4>Robô (🤖) e Mago (🧙)</h4>
+          <p>Funções avançadas que combinam dados de várias fontes para criar um pacote de informações completo e copiá-lo para a área de transferência.</p>
           <ul>
-              <li><strong>Abrir/Fechar</strong>: Clique no ícone do robô para mostrar ou ocultar o sequenciador.</li>
+              <li><strong>Abrir/Fechar</strong>: Clique no ícone do robô ou do mago para mostrar ou ocultar o respectivo painel.</li>
               <li><strong>Filtro de Visão (bolinhas azul/preta)</strong>: Alterne entre a visualização das bolinhas azuis (numéricas) e pretas (com ícones).</li>
-              <li><strong>Painel de Seleção</strong>: Todas as bolinhas desbloqueadas do tipo selecionado aparecem aqui. Clique em uma para selecioná-la como a próxima a ser usada pelo robô.</li>
+              <li><strong>Painel de Seleção</strong>: Clique em uma das bolinhas pequenas para selecioná-la.</li>
               <li><strong>Botão "Próximo"</strong>: Avança para a próxima bolinha na sequência.</li>
-              <li><strong>Copiar Dados (Clicar na bolinha grande)</strong>: Ao clicar na bolinha grande (que mostra o número/ícone selecionado), o sistema irá:
+              <li><strong>Copiar Dados (Clicar na bolinha grande)</strong>: Ao clicar na bolinha grande, o sistema irá:
                   <ol>
                       <li>Buscar um nome, CPF, sexo e data de nascimento da ferramenta "Modificador de Nomes".</li>
                       <li>Gerar um número de telefone aleatório.</li>
-                      <li>Gerar uma variação do endereço da bolinha selecionada.</li>
-                      <li>Combinar todas essas informações e copiá-las para sua área de transferência.</li>
+                      <li>Gerar uma variação do endereço e do complemento da bolinha selecionada (o Mago adiciona sufixos especiais).</li>
+                      <li>Combinar tudo e copiar para sua área de transferência.</li>
                   </ol>
               </li>
-              <li><strong>Gerador em Lote (💾🤖)</strong>: Clique neste botão para abrir o modo de geração em lote.
-                <ul>
-                    <li>Selecione as bolinhas que deseja usar como base.</li>
-                    <li>Defina a quantidade total de variações a serem geradas.</li>
-                    <li>Clique em "Gerar e Copiar" para criar todos os pacotes de dados e copiá-los para a área de transferência.</li>
-                </ul>
-              </li>
+              <li><strong>Gerador em Lote (💾🤖)</strong>: No painel do Robô, este botão abre um modo para gerar múltiplos pacotes de dados de uma só vez, a partir de uma seleção de bolinhas.</li>
           </ul>
 
           <hr>
 
           <h3>Modificador de Nomes</h3>
-          <p>Esta ferramenta oferece funcionalidades para manipular nomes e complementos, além de gerenciar um banco de dados local.</p>
+          <p>Ferramenta para manipular nomes e complementos, além de gerenciar um banco de dados local.</p>
           <ul>
-              <li><strong>Modificar Nome</strong>: Digite um nome completo e clique no botão (ou pressione Enter) para formatá-lo com a capitalização correta (ex: "joão da silva" vira "João da Silva"). O resultado é copiado automaticamente.</li>
+              <li><strong>Modificar Nome</strong>: Digita um nome completo e formata-o com a capitalização correta (ex: "joão da silva" vira "João da Silva").</li>
               <li><strong>Banco de Dados</strong>:
                   <ul>
-                      <li><strong>Salvar no Banco</strong>: Cole uma lista de registros (com "Nome:", "CPF:", "Nascimento:", etc.) na área de texto e clique em salvar.</li>
+                      <li>Clique em <strong>"Banco de Dados"</strong> para expandir/recolher a seção.</li>
+                      <li><strong>Salvar no Banco</strong>: Cole uma lista de registros (com "Nome:", "CPF:", etc.) e clique para salvar.</li>
                       <li><strong>Limpar Banco</strong>: Apaga todos os dados salvos.</li>
+                      <li>É possível excluir registros individualmente clicando no 'X' vermelho ao lado de cada um (requer senha).</li>
                   </ul>
               </li>
-               <li><strong>Novo Nome</strong>: Clica para buscar um registro aleatório do banco de dados que se enquadre nos critérios de idade (nascidos entre 1974-2004). O resultado formatado (CPF, Nome, Sexo, Nascimento) é copiado automaticamente.</li>
-              <li><strong>Modificador de Complemento</strong>:
-                  <ul>
-                      <li>Gere variações de um texto de complemento de endereço (ex: "Apto 101 Bloco A").</li>
-                      <li>Ao copiar uma variação, o campo de texto original é automaticamente limpo, preparando-o para o próximo uso.</li>
-                  </ul>
-              </li>
+               <li><strong>Novo Nome</strong>: Busca um registro aleatório do banco de dados (nascidos entre 1974-2004) e copia os dados formatados (CPF, Nome, Sexo, Nascimento) para a área de transferência.</li>
+              <li><strong>Modificador de Complemento</strong>: Gere variações de um texto de complemento de endereço (ex: "Apto 101 Bloco A").</li>
+          </ul>
+           
+          <hr>
+
+          <h3>Plano-B</h3>
+          <p>Esta seção contém listas personalizadas para acesso rápido.</p>
+          <ul>
+              <li><strong>CEPs Coqueiral / Miguxos</strong>: Alterne entre as duas listas.</li>
+              <li><strong>Copiar (🐶)</strong>: Cada item possui um botão de cópia com o ícone de cachorro.</li>
+              <li><strong>Adicionar Item (+)</strong>: Clique na bolinha verde com o sinal de mais no final da lista para adicionar um novo registro (requer senha).</li>
+              <li><strong>Editar/Excluir</strong>: Clique com o botão direito do mouse em qualquer item para abrir um menu com as opções de editar ou excluir (requer senha).</li>
           </ul>
       </div>
     </div>
