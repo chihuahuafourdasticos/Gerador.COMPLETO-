@@ -23,6 +23,7 @@
             <button id="nav-address" class="active" onclick="navigation.showTool('address-generator')">Gerador de Endereços</button>
             <button id="nav-name" onclick="navigation.showTool('name-modifier')">Modificador de Nomes</button>
             <button id="nav-plano">Plano-B</button>
+            <button id="nav-clean" onclick="navigation.showTool('clean-generator')">Clean</button>
             <div id="theme-toggle" title="Alterar Tema">☯</div>
         </nav>
         <div id="backup-controls">
@@ -42,12 +43,14 @@
             <label for="clean-street-toggle-checkbox" title="Se selecionado, a variação da rua não será modificada.">Rua Limpa</label>
           </div>
           <button id="prefix-menu-btn" title="Configurar Frases de Prefixo">👩‍🏫</button>
+          <button id="cyborg-mode-btn" title="Ativar/Desativar Modo Ciborgue">
+            <img src="/ChatGPT Image 8 de set. de 2025, 22_05_56.png" alt="Modo Ciborgue">
+          </button>
         </div>
         <!-- New History Controls -->
         <div id="history-controls">
             <button id="undo-btn" title="Desfazer (Voltar)">↶</button>
             <button id="redo-btn" title="Refazer (Avançar)">↷</button>
-            <button id="chihuahua-robot-toggle" title="Ativar/Desativar modo Robô Chihuahua">🐶🤖</button>
         </div>
     </div>
     <div id="ip-widget">
@@ -191,6 +194,118 @@
     </div>
   </div>
 
+  <!-- New Clean Generator Tool Container -->
+  <div id="clean-generator" class="tool-container" style="display: none;">
+      <div class="clean-container">
+        <!-- Header -->
+        <div class="clean-header">
+          <h1 class="clean-title">Gerador de Variações de Nomes de Ruas</h1>
+          <div class="clean-subtitle">Sem repetições • Gera 100 até 1000+ itens</div>
+        </div>
+
+        <!-- Controls Card -->
+        <div class="clean-card">
+          <div class="clean-controls-grid">
+            <div class="clean-control-group">
+              <label for="clean-base-names" class="clean-label">Nomes base (um por linha ou separados por vírgula)</label>
+              <textarea
+                id="clean-base-names"
+                class="clean-textarea"
+                placeholder="Ex.: Rua Tacaratu Marques&#10;Rua dos Palmares&#10;Avenida Dom Pedro"
+              >Rua Tacaratu Marques</textarea>
+              <p class="clean-hint">Dica: você pode colar uma lista grande de ruas aqui.</p>
+            </div>
+            <div class="clean-options-grid">
+              <div class="clean-control-group">
+                <label for="clean-quantity" class="clean-label">Quantidade desejada</label>
+                <input
+                  type="number"
+                  id="clean-quantity"
+                  class="clean-input"
+                  min="1"
+                  max="10000"
+                  value="200"
+                />
+                <span class="clean-hint">Ex.: 100, 200, 300, ... 1000</span>
+              </div>
+              <div class="clean-control-group">
+                <label for="clean-style" class="clean-label">Estilo</label>
+                <select id="clean-style" class="clean-select">
+                  <option value="realista">Realista (mudanças leves)</option>
+                  <option value="criativa">Criativa (mais variações)</option>
+                  <option value="mista" selected>Mista</option>
+                </select>
+                <label class="clean-checkbox-label">
+                  <input type="checkbox" id="clean-include-type" checked />
+                  Incluir tipo de logradouro (Rua, Avenida, etc.)
+                </label>
+                <div class="clean-control-group" style="margin-top: 10px;">
+                  <label for="clean-seed" class="clean-label">Semente (opcional)</label>
+                  <input
+                    type="text"
+                    id="clean-seed"
+                    class="clean-input"
+                    placeholder="Use para repetir um resultado"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="clean-actions">
+            <button id="clean-generate-btn" class="clean-btn primary">
+              <span class="icon">🔀</span> Gerar variações
+            </button>
+            <button id="clean-robot-mode-btn" class="clean-btn" title="Ativar/Desativar Modo Robô">
+              <span class="icon">🤖</span> Modo Robô
+            </button>
+            <button id="clean-clear-btn" class="clean-btn">
+              <span class="icon">🗑️</span> Limpar
+            </button>
+            <button id="clean-copy-btn" class="clean-btn" disabled>
+              <span class="icon">📋</span> Copiar
+            </button>
+            <button id="clean-download-txt-btn" class="clean-btn" disabled>
+              <span class="icon">💾</span> Baixar .TXT
+            </button>
+            <button id="clean-download-csv-btn" class="clean-btn" disabled>
+              <span class="icon">💾</span> Baixar .CSV
+            </button>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="clean-card">
+          <div class="clean-results-header">
+            <h2 class="clean-section-title">Resultados (<span id="clean-results-count">0</span>)</h2>
+            <button id="clean-sort-btn" class="clean-sort-link">
+              Ordenar A→Z
+            </button>
+          </div>
+          <div id="clean-results-output">
+             <p class="clean-hint">Nenhuma variação gerada ainda. Clique em "Gerar variações".</p>
+             <ol id="clean-results-list" class="clean-results-list"></ol>
+          </div>
+        </div>
+
+        <!-- New Ball Picker Panel -->
+        <div class="clean-card">
+          <h2 class="clean-section-title">Selecionar Endereço Base de uma Bolinha</h2>
+          <p class="clean-hint">Clique em uma bolinha para usar o endereço e número dela como base para a geração.</p>
+          <div id="clean-ball-container" class="ball-group-container">
+            <!-- Balls from addressGenerator will be rendered here by clean.js -->
+          </div>
+        </div>
+        <!-- End New Ball Picker Panel -->
+
+        <!-- Footer -->
+        <div class="clean-footer">
+          Dica: para gerar MUITAS variações (ex.: 1000+), adicione mais nomes base e use o estilo "Mista" com logradouro ativado.
+        </div>
+      </div>
+  </div>
+
   <!-- New Prefix Menu Modal -->
   <div id="prefix-menu-modal" class="modal" style="display: none;">
       <div class="modal-content">
@@ -288,6 +403,7 @@
               <li><strong>Usar Prefixo (Checkbox)</strong>: Quando marcado, adiciona frases como "enviar para", "destinado a", etc., antes da variação do endereço.</li>
               <li><strong>Rua Limpa (Checkbox)</strong>: Quando marcado, a parte do endereço da rua não é modificada, resultando em uma "rua limpa". O prefixo (se ativo) ainda será adicionado.</li>
               <li><strong>Configurar Frases (👩‍🏫)</strong>: Abre um menu para selecionar categorias de frases de prefixo e ativar traduções em inglês.</li>
+              <li><strong>Modo Ciborgue (Botão Chihuahua-Robô)</strong>: Quando ativado, clicar em "Copiar" em uma variação gerada irá copiar um bloco de dados completo: um nome/CPF aleatório do banco de dados, um telefone gerado, e o endereço com a variação selecionada e um complemento modificado.</li>
           </ul>
           <h4>Robô (🤖) e Mago (🧙)</h4>
           <p>Funções avançadas que combinam dados de várias fontes para criar um pacote de informações completo e copiá-lo para a área de transferência.</p>
@@ -346,17 +462,20 @@
     import * as addressGenerator from './addressGenerator.js';
     import * as nameModifier from './nameModifier.js';
     import * as planoB from './planoB.js';
+    import * as clean from './clean.js';
 
     window.navigation = navigation;
     window.addressGenerator = addressGenerator;
     window.nameModifier = nameModifier;
     window.planoB = planoB;
+    window.clean = clean;
 
     document.addEventListener('DOMContentLoaded', () => {
       navigation.showTool('address-generator'); 
       addressGenerator.initAddressGenerator(); 
       nameModifier.initNameModifier(); 
       planoB.initPlanoB();
+      clean.initCleanGenerator();
 
       // --- Plano-B Unlock Logic ---
       const planoBNavBtn = document.getElementById('nav-plano');

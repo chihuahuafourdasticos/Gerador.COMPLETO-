@@ -117,7 +117,7 @@ let ballMeta = {};
 let addressGeneratorTitle = 'Gerador_CH_3.0'; // Default title
 let addressOrder = []; // New: To store custom sort order
 let killModeActive = false; // For the new KILL variations
-let chihuahuaRobotModeActive = false; // For the new copy mode
+let cyborgModeActive = false; // For the new Cyborg Mode
 let usePrefixes = true;
 let useCleanStreet = false;
 let useEnglishPrefixes = false;
@@ -132,7 +132,7 @@ function loadState() {
         const storedTitle = localStorage.getItem('addressGenerator_title');
         const storedOrder = localStorage.getItem('addressGenerator_order');
         const killMode = localStorage.getItem('addressGenerator_killMode');
-        const chihuahuaRobotMode = localStorage.getItem('addressGenerator_chihuahuaRobotMode');
+        const cyborgMode = localStorage.getItem('addressGenerator_cyborgMode');
 
         const storedUsePrefix = localStorage.getItem('addressGenerator_usePrefix');
         const storedCleanStreet = localStorage.getItem('addressGenerator_cleanStreet');
@@ -145,7 +145,7 @@ function loadState() {
         addressGeneratorTitle = storedTitle || 'Gerador_CH_3.0';
         addressOrder = storedOrder ? JSON.parse(storedOrder) : [];
         killModeActive = killMode === 'true';
-        chihuahuaRobotModeActive = chihuahuaRobotMode === 'true';
+        cyborgModeActive = cyborgMode === 'true';
 
         usePrefixes = storedUsePrefix !== null ? storedUsePrefix === 'true' : true;
         useCleanStreet = storedCleanStreet === 'true';
@@ -175,7 +175,7 @@ function saveState() {
         localStorage.setItem('addressGenerator_title', addressGeneratorTitle);
         localStorage.setItem('addressGenerator_order', JSON.stringify(addressOrder));
         localStorage.setItem('addressGenerator_killMode', killModeActive);
-        localStorage.setItem('addressGenerator_chihuahuaRobotMode', chihuahuaRobotModeActive);
+        localStorage.setItem('addressGenerator_cyborgMode', cyborgModeActive);
         localStorage.setItem('addressGenerator_usePrefix', usePrefixes);
         localStorage.setItem('addressGenerator_cleanStreet', useCleanStreet);
         localStorage.setItem('addressGenerator_useEnglish', useEnglishPrefixes);
@@ -187,7 +187,7 @@ function saveState() {
 }
 
 // Make addresses available for other modules
-export { addresses };
+export { addresses, ballMeta, lockedBalls, addressOrder };
 
 // --- Robot Sequencer State ---
 let robotSequence = [];
@@ -389,19 +389,64 @@ export async function generateVariations() {
 }
 
 export async function copyVariation(buttonElement, prefix, variation) {
-    if (chihuahuaRobotModeActive) {
-        // --- NEW CHIHUAHUA ROBOT LOGIC ---
-        const nameDataModule = await import('./nameModifier.js');
-        const nameData = await nameDataModule.getNewName(true); // true = is robot call
+    if (cyborgModeActive) {
+        await copyCyborgVariation(buttonElement, prefix, variation);
+    } else {
+        await copyStandardVariation(buttonElement, prefix, variation);
+    }
+}
 
+async function copyStandardVariation(buttonElement, prefix, variation) {
+  const originalText = document.getElementById('originalText').value;
+  const lines = originalText.split('\n');
+  let addressLineIndex = -1;
+
+  // Find the original "Endereço:" line again
+  for(let i=0; i< lines.length; i++) {
+      if (lines[i].trim().match(/^Endereço:/i)) {
+          addressLineIndex = i;
+          break;
+      }
+  }
+
+  if (addressLineIndex !== -1) {
+    const newAddressLine = `Endereço: ${prefix} ${variation}`;
+    lines[addressLineIndex] = newAddressLine;
+    const newText = lines.join('\n');
+
+    try {
+        await navigator.clipboard.writeText(newText);
+        const originalButtonText = buttonElement.textContent;
+        buttonElement.textContent = 'Copiado!';
+        setTimeout(() => {
+            buttonElement.textContent = originalButtonText;
+        }, 1500);
+    } catch (err) {
+      console.error('Falha ao copiar texto: ', err);
+       alert('Falha ao copiar texto.');
+    }
+  } else {
+    alert('Linha "Endereço:" não encontrada no texto original para copiar.');
+  }
+}
+
+async function copyCyborgVariation(buttonElement, prefix, variation) {
+    try {
+        // 1. Get Name/CPF data from nameModifier
+        const nameModifier = await import('./nameModifier.js');
+        const nameData = await nameModifier.getNewName(true); // true = silent mode
         if (!nameData) {
-            alert('Falha ao obter dados de nome/CPF. Verifique o banco de dados do Modificador de Nomes.');
+            alert('Não foi possível obter dados do banco de nomes. Verifique se há nomes elegíveis.');
             return;
         }
 
+        // 2. Generate a random phone number
         const phoneNumber = generateRandomPhoneNumber();
+
+        // 3. Get original text and modify address/complemento lines
         const originalText = document.getElementById('originalText').value;
         const lines = originalText.split('\n');
+        
         let addressLineIndex = -1;
         let complementoLineIndex = -1;
 
@@ -415,60 +460,28 @@ export async function copyVariation(buttonElement, prefix, variation) {
         }
 
         if (complementoLineIndex !== -1) {
-            const complementoRegex = /Complemento:\s*(.*)/i;
-            const match = lines[complementoLineIndex].match(complementoRegex);
+            const compRegex = /Complemento:\s*(.*)/i;
+            const match = lines[complementoLineIndex].match(compRegex);
             if (match && match[1]) {
-                const originalComplemento = match[1];
-                const modifiedComplemento = nameDataModule.createSingleComplementVariation(originalComplemento);
+                const modifiedComplemento = nameModifier.createSingleComplementVariation(match[1]);
                 lines[complementoLineIndex] = `Complemento: ${modifiedComplemento}`;
             }
         }
 
         const modifiedAddressBlock = lines.join('\n');
-        const finalText = `${nameData}\ntelefone: ${phoneNumber}\n${modifiedAddressBlock}`;
+        const finalFullText = `${nameData}\ntelefone: ${phoneNumber}\n${modifiedAddressBlock}`;
+        
+        // 4. Copy to clipboard and provide feedback
+        await navigator.clipboard.writeText(finalFullText);
+        const originalButtonText = buttonElement.textContent;
+        buttonElement.textContent = 'Ciborg!';
+        setTimeout(() => {
+            buttonElement.textContent = originalButtonText;
+        }, 1500);
 
-        navigator.clipboard.writeText(finalText).then(() => {
-            const originalButtonText = buttonElement.textContent;
-            buttonElement.textContent = 'Copiado!';
-            setTimeout(() => {
-                buttonElement.textContent = originalButtonText;
-            }, 1500);
-        }).catch(err => {
-            console.error('Falha ao copiar texto (modo Chihuahua): ', err);
-            alert('Falha ao copiar texto.');
-        });
-
-    } else {
-        // --- ORIGINAL LOGIC ---
-        const originalText = document.getElementById('originalText').value;
-        const lines = originalText.split('\n');
-        let addressLineIndex = -1;
-
-        for (let i = 0; i < lines.length; i++) {
-            if (lines[i].trim().match(/^Endereço:/i)) {
-                addressLineIndex = i;
-                break;
-            }
-        }
-
-        if (addressLineIndex !== -1) {
-            const newAddressLine = `Endereço: ${prefix} ${variation}`;
-            lines[addressLineIndex] = newAddressLine;
-            const newText = lines.join('\n');
-
-            navigator.clipboard.writeText(newText).then(() => {
-                const originalButtonText = buttonElement.textContent;
-                buttonElement.textContent = 'Copiado!';
-                setTimeout(() => {
-                    buttonElement.textContent = originalButtonText;
-                }, 1500);
-            }).catch(err => {
-                console.error('Falha ao copiar texto: ', err);
-                alert('Falha ao copiar texto.');
-            });
-        } else {
-            alert('Linha "Endereço:" não encontrada no texto original para copiar.');
-        }
+    } catch (err) {
+        console.error('Falha no modo Ciborgue: ', err);
+        alert('Ocorreu um erro ao gerar os dados do modo Ciborgue.');
     }
 }
 
@@ -782,6 +795,8 @@ async function generateWizardDataPackage(ballKey) {
     // 5. Combine and return
     return `${nameData}\ntelefone: ${phoneNumber}\n${modifiedAddressBlock}`;
 }
+
+export { generateRandomPhoneNumber, generateFullDataPackage };
 
 // --- End New Wizard Functions ---
 
@@ -1249,21 +1264,21 @@ export function initAddressGenerator() {
         });
     }
 
-    // New Chihuahua Robot Toggle Logic
-    const chihuahuaBtn = document.getElementById('chihuahua-robot-toggle');
-    if (chihuahuaBtn) {
-        if (chihuahuaRobotModeActive) {
-            chihuahuaBtn.classList.add('active');
+    const cyborgBtn = document.getElementById('cyborg-mode-btn');
+    if (cyborgBtn) {
+        if (cyborgModeActive) {
+            cyborgBtn.classList.add('active');
         }
-        chihuahuaBtn.addEventListener('click', () => {
-            chihuahuaRobotModeActive = !chihuahuaRobotModeActive;
-            chihuahuaBtn.classList.toggle('active', chihuahuaRobotModeActive);
-            saveState();
-             if(chihuahuaRobotModeActive) {
-                alert('Modo Robô Chihuahua ATIVADO. Copiar uma variação agora irá gerar um pacote de dados completo.');
+        cyborgBtn.addEventListener('click', () => {
+            cyborgModeActive = !cyborgModeActive;
+            if (cyborgModeActive) {
+                alert('Modo Ciborgue ATIVADO. Copiar irá gerar um bloco de dados completo.');
+                cyborgBtn.classList.add('active');
             } else {
-                alert('Modo Robô Chihuahua DESATIVADO. Copiar irá funcionar normalmente.');
+                alert('Modo Ciborgue DESATIVADO.');
+                cyborgBtn.classList.remove('active');
             }
+            saveState();
         });
     }
 

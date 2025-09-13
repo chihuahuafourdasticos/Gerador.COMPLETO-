@@ -4,11 +4,13 @@ export function showTool(toolId) {
   document.getElementById('address-generator').style.display = 'none';
   document.getElementById('name-modifier').style.display = 'none';
   document.getElementById('plano-b').style.display = 'none';
+  document.getElementById('clean-generator').style.display = 'none';
 
   // Deactivate all nav buttons
   document.getElementById('nav-address').classList.remove('active');
   document.getElementById('nav-name').classList.remove('active');
   document.getElementById('nav-plano').classList.remove('active');
+  document.getElementById('nav-clean').classList.remove('active');
 
   // Show the selected tool container
   const toolElement = document.getElementById(toolId);
