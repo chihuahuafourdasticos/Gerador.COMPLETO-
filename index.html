@@ -30,6 +30,7 @@
             <button id="create-backup-btn">Criar Backup</button>
             <button id="import-backup-btn">Importar Backup</button>
             <button id="kill-mode-btn">KILL</button>
+            <button id="email-link-btn" title="Abrir planilha de emails">📧</button>
             <input type="file" id="backup-file-input" style="display: none;" accept=".json,application/json">
         </div>
         <!-- New Prefix Controls -->
@@ -43,9 +44,7 @@
             <label for="clean-street-toggle-checkbox" title="Se selecionado, a variação da rua não será modificada.">Rua Limpa</label>
           </div>
           <button id="prefix-menu-btn" title="Configurar Frases de Prefixo">👩‍🏫</button>
-          <button id="cyborg-mode-btn" title="Ativar/Desativar Modo Ciborgue">
-            <img src="/ChatGPT Image 8 de set. de 2025, 22_05_56.png" alt="Modo Ciborgue">
-          </button>
+          <button id="cyborg-mode-btn" title="Ativar/Desativar Modo Ciborgue">⚡️</button>
         </div>
         <!-- New History Controls -->
         <div id="history-controls">
@@ -527,6 +526,15 @@
           localStorage.setItem('theme', isDark ? 'dark' : 'light');
       });
       // --- END THEME TOGGLE LOGIC ---
+
+      // --- New Email Link Button Logic ---
+      const emailLinkBtn = document.getElementById('email-link-btn');
+      if (emailLinkBtn) {
+          emailLinkBtn.addEventListener('click', () => {
+              window.open('https://docs.google.com/spreadsheets/d/1r179e5vtHYkArl8BrLoQ1fsX637kvVAVKkBf2tSqUKs/edit?hl=pt-br&gid=0#gid=0', '_blank');
+          });
+      }
+      // --- End New Email Link Button Logic ---
 
       // IP Widget Logic
       const ipEye = document.getElementById('ip-eye');

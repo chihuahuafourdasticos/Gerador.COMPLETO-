@@ -461,13 +461,7 @@ emoji-picker {
         justify-content: center;
         align-items: center;
         vertical-align: middle; /* Align with professor emoji */
-    }
-
-    #cyborg-mode-btn img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        object-fit: cover;
+        font-size: 1.5em; /* Size for the emoji */
     }
 
     #cyborg-mode-btn:hover {
