@@ -31,6 +31,8 @@
             <button id="import-backup-btn">Importar Backup</button>
             <button id="kill-mode-btn">KILL</button>
             <button id="email-link-btn" title="Abrir planilha de emails">📧</button>
+            <button id="link-sheets-btn" title="Abrir planilha de links">🔗</button>
+            <button id="notebook-sheets-btn" title="Abrir planilha de anotações">📓</button>
             <input type="file" id="backup-file-input" style="display: none;" accept=".json,application/json">
         </div>
         <!-- New Prefix Controls -->
@@ -535,6 +537,22 @@
           });
       }
       // --- End New Email Link Button Logic ---
+      
+      // --- New Sheets Link Buttons Logic ---
+      const linkSheetsBtn = document.getElementById('link-sheets-btn');
+      if (linkSheetsBtn) {
+          linkSheetsBtn.addEventListener('click', () => {
+              window.open('https://docs.google.com/spreadsheets/d/1gP37iywvgnAF_6Cv_QmSGVdVYJ5tcLFvGYeGstIv5E0/edit?gid=0#gid=0', '_blank');
+          });
+      }
+
+      const notebookSheetsBtn = document.getElementById('notebook-sheets-btn');
+      if (notebookSheetsBtn) {
+          notebookSheetsBtn.addEventListener('click', () => {
+              window.open('https://docs.google.com/spreadsheets/d/19IDg7Rug6W_HXPgMygd9pTZ10ER8CY0voQ-2JAtisuE/edit?gid=0#gid=0', '_blank');
+          });
+      }
+      // --- End New Sheets Link Buttons Logic ---
 
       // IP Widget Logic
       const ipEye = document.getElementById('ip-eye');
